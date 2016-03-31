@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+'use strict';
+
+const config = require('../config/config.json');
+
+const app = require('../app');
+const sticky = require('../sticky-session/sticky-session');
+const debug = require('debug')('file_server:server');
+const http = require('http');
+
+const server = http.createServer(app);
+
+if (!sticky.listen(server, config.port)) {
+  // Master code
+  server.once('listening', function() {
+    console.log('server started on', config.port);
+  });
+
+  server.on('error', onError);
+} else {
+  app.set('port', config.port);
+}
+
+
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + config.port
+    : 'Port ' + config.port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+
+

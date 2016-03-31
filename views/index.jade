@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= "FILE SERVER"
+  -
+  case files
+    when null
+      div= "Files is not available"
+    when undefined
+      div= "Files is not available"
+    default
+      div= "Available files:"
+      table
+        tr
+          td(class="Name")= "Name"
+          td(class="Size")= "Size"
+          td(class="Link")= "File"
+          td(class="Date")= "Date"
+        each val in files
+          tr
+            td= val.name
+            td= val.size
+            td
+              a(href= "/download/" + val.file) download
+            td= val.ctime
