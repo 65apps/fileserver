@@ -1,4 +1,4 @@
 {
-  "port": 4000,
+  "port": 8080,
   "files": "/mnt/disk/files/"
 }

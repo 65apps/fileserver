@@ -8,14 +8,12 @@ const router = express.Router();
 
 let dir = null;
 
-readFiles()
-.then(readStat)
-.then( info => {
-  dir = info;
-})
-.catch((err) => {
-  console.log('dir read error', err);
+
+fs.watch(config.files, (event, filename) => {
+  readDir();
 });
+
+readDir();
 
 router.get('/', (req, res) => {
   res.render('index', { files: dir });
@@ -77,6 +75,18 @@ router.get('/download/:file', (req, res) => {
 });
 
 module.exports = router;
+
+
+function readDir() {
+  readFiles()
+    .then(readStat)
+    .then( info => {
+      dir = info;
+    })
+    .catch((err) => {
+      console.log('dir read error', err);
+    });
+}
 
 function readFiles() {
   return new Promise( (resolve, reject) => {
