@@ -39,9 +39,19 @@ router.get('/download/:file', (req, res) => {
   });
 
   if (!search) return res.status(404).json({ result: 'Not found' });
+  let start, end;
 
-  let start = req.headers['first-byte-pos'] ? +req.headers['first-byte-pos'] : 0;
-  let end = req.headers['last-byte-pos'] ? +req.headers['last-byte-pos'] : search.size-1;
+  if (req.headers['range']) {
+    let array = req.headers['range'].split(/bytes=([0-9]*)-([0-9]*)/);
+    start = +array[1] | 0;
+    end = +array[2] | 0;
+  } else if(req.headers['first-byte-pos'] || req.headers['last-byte-pos']) {
+    start = +req.headers['first-byte-pos'] | 0;
+    end = +req.headers['last-byte-pos'] | search.size-1;
+  } else {
+    start = 0;
+    end = search.size-1;
+  }
 
   if (start < 0) {
     start = 0;
@@ -61,8 +71,10 @@ router.get('/download/:file', (req, res) => {
     , 'Content-Disposition': 'attachment; filename=' + search.file
     , 'Accept-Ranges': 'bytes'
     , 'Content-Length': (end - start + 1)
+    , 'Content-Range': 'bytes ' + start + '-' + end + '/' + search.size
   };
 
+  res.status(206);
   res.set(headers);
   let reader = fs.createReadStream(config.files + search.file, { start: start, end: end });
 
