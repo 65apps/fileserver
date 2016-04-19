@@ -69,6 +69,7 @@ let downloadFiles = () => {
 };
 
 
-getInfo();
-getInfoDetail();
-downloadFiles();
+//getInfo();
+//getInfoDetail();
+//downloadFiles();
+

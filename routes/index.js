@@ -116,7 +116,10 @@ function readStat(files) {
     files.forEach(el => {
       let name = el.split('.')[0];
       let stat = fs.statSync(config.files + el);
-      info.push( { size: stat.size, name: name, file: el, ctime: stat.ctime } );
+      let polygons = fs.readFileSync(config.polyline + name + '.json');
+      polygons = polygons.toString();
+
+      info.push( { size: stat.size, name: name, file: el, ctime: stat.ctime, polygons: JSON.parse(polygons) } );
     });
 
     resolve(info)
