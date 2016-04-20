@@ -72,7 +72,7 @@ function serialize(text, name) {
         resultArray.push(pointArray);
     }
 
-    GeoJSON.parse([{ multiPolygon: resultArray  }], { 'MultiPolygon': 'multiPolygon' }, geojson => {
+    GeoJSON.parse([{ multiPolygon: [resultArray]  }], { 'MultiPolygon': 'multiPolygon' }, geojson => {
 
         fs.writeFile(config.polyline + name, JSON.stringify(geojson), (err) => {
             if (err) throw err;
