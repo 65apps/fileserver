@@ -74,7 +74,9 @@ router.get('/download/:file', (req, res) => {
     , 'Content-Range': 'bytes ' + start + '-' + end + '/' + search.size
   };
 
-  res.status(206);
+
+  start == 0 ? res.status(200) : res.status(206);
+
   res.set(headers);
   let reader = fs.createReadStream(config.files + search.file, { start: start, end: end });
 
