@@ -10,6 +10,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     build-essential \
     ca-certificates \
+    nano \
     python \
     libssl-dev \
     wget \
