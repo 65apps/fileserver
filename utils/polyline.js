@@ -5,6 +5,10 @@ const GeoJSON = require('geojson');
 const fs = require('fs');
 const config = require('../config/config.json');
 
+if (!fs.existsSync(__dirname + '/../'+ config.polyline)) {
+    fs.mkdirSync(__dirname + '/../'+ config.polyline);
+}
+
 let districts = [
     { path: encodeURI('/russia/crimean-fed-district.poly'), name: 'Crimea.json' }
     , { path: encodeURI('/russia/central-fed-district.poly'), name: 'Russia_Central.json' }
