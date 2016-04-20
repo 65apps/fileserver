@@ -104,6 +104,7 @@ function readFiles() {
   return new Promise( (resolve, reject) => {
     fs.readdir(config.files, (err, files) => {
       if(err) return reject(err);
+      if(files.length == 0) return reject(new Error('files not found'));
       resolve(files);
     });
   })
