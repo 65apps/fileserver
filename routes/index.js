@@ -3,6 +3,7 @@
 const config = require('../config/config.json');
 const express = require('express');
 const fs = require('fs');
+//const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -32,7 +33,10 @@ router.get('/info/:name', (req, res) => {
   search ? res.json(search) : res.status(404).json({ result: 'Not found' });
 });
 
+/*
 router.get('/download/:file', (req, res) => {
+  console.log(req.headers);
+
   let search = null;
   dir.forEach( el => {
     if (el.file == req.params.file) return search = el;
@@ -72,11 +76,20 @@ router.get('/download/:file', (req, res) => {
     , 'Accept-Ranges': 'bytes'
     , 'Content-Length': (end - start + 1)
     , 'Content-Range': 'bytes ' + start + '-' + end + '/' + search.size
+    , 'ETag': search.etag
   };
+
+  if(req.headers['if-match']) {
+    return console.log(req.headers['if-match']);
+
+    //req.headers['if-match'] == search.etag ? res.status(200) : res.status(412);
+  }
 
   (start == 0 && end == search.size - 1) ? res.status(200) : res.status(206);
 
+
   res.set(headers);
+
   let reader = fs.createReadStream(config.files + search.file, { start: start, end: end });
 
   reader.on('error', function(err) {
@@ -85,7 +98,7 @@ router.get('/download/:file', (req, res) => {
   });
 
   reader.pipe(res);
-});
+}); */
 
 module.exports = router;
 
@@ -120,6 +133,9 @@ function readStat(files) {
       let stat = fs.statSync(config.files + el);
       let polygons = fs.readFileSync(config.polyline + name + '.json');
       polygons = polygons.toString();
+
+      //let etag = crypto.createHmac('sha256', name + stat.ctime)
+      //    .digest('hex');
 
       info.push( { size: stat.size, name: name, file: el, ctime: stat.ctime, polygons: JSON.parse(polygons) } );
     });

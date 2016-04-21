@@ -64,7 +64,7 @@ function serialize(text, name) {
             let foundСoordinates = line.match(/([\w.+]+)\b/g);
             if (foundСoordinates == null) continue;
             if (foundСoordinates.length == 2 ) {
-                point.push(parseFloat(foundСoordinates[0]), parseFloat(foundСoordinates[1]));
+                point.push(parseFloat(foundСoordinates[1]), parseFloat(foundСoordinates[0]));
                 pointArray.push(point);
             }
         }

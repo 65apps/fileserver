@@ -10,6 +10,8 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const app = express();
 
+const config = require('./config/config.json');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -21,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/download', express.static(config.files));
 
 app.use('/', routes);
 
