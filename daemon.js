@@ -11,10 +11,10 @@ daemon.on('exit', function () {
 
 const execFile = require('child_process').execFile;
 const child = execFile('node', ['utils/polyline.js'], (error, stdout, stderr) => {
-    if (error) {
-        throw error;
-    }
     daemon.start();
+    if (error) {
+        console.log(error);
+    }
 });
 
 
