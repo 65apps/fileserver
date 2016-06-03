@@ -16,6 +16,7 @@ block content
           td(class="Size")= "Size"
           td(class="Link")= "File"
           td(class="Date")= "Date"
+          td(class="Timestamp")= "Timestamp"
         each val in files
           tr
             td= val.name
@@ -23,3 +24,4 @@ block content
             td
               a(href= "/download/" + val.file) download
             td= val.ctime
+            td= val.timestamp

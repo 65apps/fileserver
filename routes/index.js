@@ -59,14 +59,10 @@ function readStat(files) {
   return new Promise( (resolve, reject) => {
     let info = [];
 
-    files.forEach(el => {
+    files.forEach( el => {
       let name = el.split('.')[0];
       let stat = fs.statSync(config.files + el);
-
-      let polygons = fs.readFileSync(config.polyline + name + '.json');
-      polygons = polygons.toString();
-
-      info.push( { size: stat.size, name: name, file: el, ctime: stat.ctime, polygons: JSON.parse(polygons) } );
+      info.push( { size: stat.size, name: name, file: el, ctime: stat.ctime, timestamp: +new Date(stat.ctime) } );
     });
 
     resolve(info)

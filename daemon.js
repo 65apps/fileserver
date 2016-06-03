@@ -5,19 +5,8 @@ const daemon = new (forever.Monitor)('./bin/www', {
     args: []
 });
 
+daemon.start();
+
 daemon.on('exit', function () {
     console.log('Process exit after 10 try');
 });
-
-const execFile = require('child_process').execFile;
-const child = execFile('node', ['utils/polyline.js'], (error, stdout, stderr) => {
-    daemon.start();
-    if (error) {
-        console.log(error);
-    }
-});
-
-
-
-
-

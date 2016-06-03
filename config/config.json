@@ -1,5 +1,4 @@
 {
   "port": 8080,
-  "files": "/mnt/files/",
-  "polyline": "polyline/"
+  "files": "/mnt/disk/files/"
 }
